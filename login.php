@@ -2,7 +2,6 @@
 session_start();
 include "config/koneksi.php"; 
 
-// 1. Logika Login HARUS di paling atas, SEBELUM HTML
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -10,29 +9,17 @@ if (isset($_POST['login'])) {
     if(empty($username) || empty($password)) {
         $error = "Data tidak boleh kosong!";
     } else {
-        // Gunakan Prepared Statement untuk keamanan (Sangat Disarankan)
-        // Untuk sementara, kita gunakan query biasa sesuai struktur lama Anda
         $query = mysqli_query($koneksi, "SELECT * FROM tbl_users WHERE username='$username' AND password='$password'");
         $user = mysqli_fetch_assoc($query);
 
         if($user) {
             // Set Session
             $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; // Asumsi ada kolom 'role' di database
+            $_SESSION['role'] = $user['role']; // Pastikan ada kolom 'role' di database
 
-            // Redirect berdasarkan Role
-            if($user['role'] == 'admin') {
-                header("Location: index.php");
-                exit();
-            } elseif($user['role'] == 'guru') {
-                header("Location: index_guru.php");
-                exit();
-            } elseif($user['role'] == 'siswa') {
-                header("Location: index_siswa.php");
-                exit();
-            } else {
-                $error = "Role tidak dikenali!";
-            }
+            // Karena file disatukan, semua role langsung ke index.php
+            header("Location: index.php");
+            exit();
         } else {
             $error = "Login Gagal! Username atau Password salah.";
         }
@@ -46,13 +33,9 @@ if (isset($_POST['login'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Log in</title>
 
-  <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-  <!-- icheck bootstrap -->
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-  <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition login-page">
@@ -60,12 +43,10 @@ if (isset($_POST['login'])) {
   <div class="login-logo">
     <a href="#"><b>Admin</b>LTE</a>
   </div>
-  <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <!-- Tampilkan Pesan Error jika ada -->
       <?php if(isset($error)): ?>
         <div class="alert alert-danger alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
@@ -97,16 +78,12 @@ if (isset($_POST['login'])) {
           </div>
         </div>
       </form>
-      <!-- /.login-card-body -->  
     </div>
   </div>
-<!-- /.login-box -->
+</div>
 
-<!-- jQuery -->
 <script src="plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 </body>
 </html>
