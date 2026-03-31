@@ -160,15 +160,22 @@
           <div class="col-lg-12">
             <div class="card">
               <div class="card-body">
-                <h5 class="card-title">Selamat Datang, <?php echo ucfirst($_SESSION['username']); ?></h5>
+                <h5 class="card-title">Dashboard <?php echo ucfirst($_SESSION['username']); ?></h5>
                 <br>
                 <p class="card-text">
                   <?php 
-                    if($role == 'admin'){
-                      echo "Hoshimi Miyabi";
-                    } else if($role == 'guru' || $role == 'siswa'){
-                      echo "Hoshimi Miyabi M6";
-                    } 
+                    if (isset($_GET['page'])) {
+                      $page = $_GET['page'];
+                    } else {
+                      $page = "";
+                    }
+                    if ($page == "") {
+                      include "page/dashboard.php";
+                    } elseif (!file_exists("page/$page.php")) {
+                      echo "File tidak ditemukan!";
+                    } else {
+                      include "page/$page.php";
+                    }
                   ?>
                 </p>
               </div>
