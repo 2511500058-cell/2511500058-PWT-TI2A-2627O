@@ -10,7 +10,7 @@
 
 <?php
 if (isset($_GET['action'])) {
-    if ($_GET)['action'] == "hapus") {
+    if ($_GET['action'] == "hapus") {
         $kd =$_GET['kd'];
         $query = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel = '$kd' ");
         if ($query) {
@@ -26,7 +26,7 @@ if (isset($_GET['action'])) {
     <div class="container-fluid">
         <div class="card">
             <div class="card-body">
-                <a href="index.php?page=tambah_mapel" class="btn btn-primary btn-sm">
+                <a href="index.php?page=tambah_mapel.php" class="btn btn-primary btn-sm">
                     Tambah Data</a>
                 <table class="table table-striped">
                     <tread>
@@ -48,7 +48,7 @@ if (isset($_GET['action'])) {
                         <tr>
                             <td><?$no; ?></td>
                             <td><?$result['kd_mapel']; ?></td>
-                            <td><?$result['nama_mapel']; ?></td>
+                            <td><?$result['nm_mapel']; ?></td>
                             <td><?$result['kkm']; ?></td>
                             <td>
                                 <a href="index.php?page=mapel&action=hapus&kd=<?$result['kd_mapel'] ?>" title="">
