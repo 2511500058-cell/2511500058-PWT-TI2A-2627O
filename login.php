@@ -1,30 +1,34 @@
 <?php
-session_start();
-include "config/koneksi.php"; 
+  session_start();
+  include "config/koneksi.php";
 
-if (isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+  if(isset($_POST['login'])) {
+      $Username = $_POST['Username'];
+      $Password = $_POST['Password'];
 
-    if(empty($username) || empty($password)) {
-        $error = "Data tidak boleh kosong!";
-    } else {
-        $query = mysqli_query($koneksi, "SELECT * FROM tbl_users WHERE username='$username' AND password='$password'");
-        $user = mysqli_fetch_assoc($query);
+      if(empty($Username) || empty($Password)) {
+          $error = "Data Tidak Boleh kosong!";
+      } else {
+          $query = mysqli_query($koneksi, "SELECT * FROM tbl_users WHERE username = '$Username' AND password = '$Password' ");
+          $userquery = mysqli_fetch_array($query);
+          
+          if($userquery) {
+              $_SESSION['role'] = strtolower($userquery['role']); 
+              $_SESSION['username'] = $Username;
 
-        if($user) {
-            // Set Session
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role']; // Pastikan ada kolom 'role' di database
+              if(($_SESSION['role'] == 'guru' || $_SESSION['role'] == 'siswa') && $Password == '1234') {
+                  header("location:index.php?page=ganti_password"); 
+                  exit();
+              } else {
+                  header("location:index.php"); 
+                  exit();
+              } 
 
-            // Karena file disatukan, semua role langsung ke index.php
-            header("Location: index.php");
-            exit();
-        } else {
-            $error = "Login Gagal! Username atau Password salah.";
-        }
-    }
-}
+          } else {
+              $error = "Login gagal. Username atau password salah!";
+          }
+      }
+  }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,7 +36,6 @@ if (isset($_POST['login'])) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AdminLTE 3 | Log in</title>
-
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
   <link rel="stylesheet" href="plugins/icheck-bootstrap/icheck-bootstrap.min.css">
@@ -47,41 +50,30 @@ if (isset($_POST['login'])) {
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <?php if(isset($error)): ?>
-        <div class="alert alert-danger alert-dismissible">
-            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">x</button>
-            <h5><i class="icon fas fa-ban"></i> Alert!</h5>
-            <?php echo $error; ?>
-        </div>
-      <?php endif; ?>
+      <?php if(isset($error)) { echo '<div class="alert alert-danger">'.$error.'</div>'; } ?>
 
-      <form action="#" method="post"> 
+      <form action="" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" id="username" class="form-control" placeholder="Username" required>
+          <input type="text" name="Username" id="Username" class="form-control" placeholder="Username" required>
           <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
+            <div class="input-group-text"><span class="fas fa-envelope"></span></div>
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+          <input type="password" name="Password" class="form-control" placeholder="Password" required>
           <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
+            <div class="input-group-text"><span class="fas fa-lock"></span></div>
           </div>
         </div>
         <div class="row">
           <div class="col-12">
-            <input type="submit" name="login" value="Login" class="btn btn-primary btn-block">
+              <input type="Submit" name="login" value="login" class="btn btn-primary btn-block">
           </div>
         </div>
       </form>
     </div>
   </div>
 </div>
-
 <script src="plugins/jquery/jquery.min.js"></script>
 <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <script src="dist/js/adminlte.min.js"></script>
