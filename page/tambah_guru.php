@@ -43,7 +43,7 @@ if(isset($_POST['simpan'])) {
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
-                        <select name="Jenkel" class="form-control">
+                        <select name="jenkel" class="form-control">
                             <option value="Laki-laki">Laki-laki</option>
                             <option value="Perempuan">Perempuan</option>
                         </select>

@@ -1,15 +1,15 @@
 <?php
 $kd_guru = $_GET['kd'];
-$data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM guru WHERE kd_guru='$kd_guru'"));
+$data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM guru WHERE kd_guru= '$kd_guru'"));
 
 if(isset($_POST['update'])) {
-    $kd_guru_new = $_POST['kd_guru'];
-    $nm = $_POST['nm_guru'];
-    $jk = $_POST['jenkel'];
-    $pt = $_POST['pend_terakhir'];
+    $kd_guru = $_POST['kd_guru'];
+    $nama = $_POST['nama'];
+    $jenkel = $_POST['jenkel'];
+    $pend_terakhir = $_POST['pend_terakhir'];
     
     $update = mysqli_query($koneksi, "UPDATE guru SET 
-        kd_guru='$kd_guru_new', nm_guru='$nm', jenkel='$jk', pend_terakhir='$pt' 
+        kd_guru='$kd_guru', nm_guru='$nama', jenkel='$jenkel', pend_terakhir='$pend_terakhir' 
         WHERE kd_guru='$kd_guru'");
     
     if($update) {
@@ -53,7 +53,7 @@ if(isset($_POST['update'])) {
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Pendidikan Terakhir</label>
-                                <textarea name="alamat" class="form-control" rows="2"><?php echo $data['pend_terakhir']; ?></textarea>
+                                <textarea name="pend_terakhir" class="form-control" rows="2"><?php echo $data['pend_terakhir']; ?></textarea>
                             </div>
                         </div>
                 <div class="card-footer">
