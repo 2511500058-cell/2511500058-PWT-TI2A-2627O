@@ -4,7 +4,6 @@ if (isset($_POST['simpan'])) {
     $nm_mapel = $_POST['nm_mapel'];
     $kkm = $_POST['kkm'];
     
-    // PERBAIKAN: Gunakan mysqli_num_rows
     $cek = mysqli_query($koneksi, "SELECT * FROM mapel WHERE kd_mapel = '$kd_mapel'");
     if (mysqli_num_rows($cek) > 0) {
         echo '<div class="alert alert-danger">Kode Mapel sudah ada!</div>';
@@ -53,7 +52,7 @@ if (isset($_POST['simpan'])) {
                     <button type="submit" name="simpan" class="btn btn-primary">
                         <i class="fas fa-save"></i> Simpan
                     </button>
-                    <a href="index.php?page=guru" class="btn btn-secondary">
+                    <a href="index.php?page=mapel" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </a>
                 </div>

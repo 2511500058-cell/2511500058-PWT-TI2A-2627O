@@ -40,7 +40,7 @@ if(isset($_POST['simpan'])) {
                     <button type="submit" name="simpan" class="btn btn-primary">
                         <i class="fas fa-save"></i> Simpan
                     </button>
-                    <a href="index.php?page=guru" class="btn btn-secondary">
+                    <a href="index.php?page=kelas" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </a>
                 </div>

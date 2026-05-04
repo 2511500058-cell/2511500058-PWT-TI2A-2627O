@@ -1,19 +1,19 @@
 <?php
 
-  if(!isset($_SESSION["username"])){
+  if(!isset($_SESSION["username"])) {
       header("location:login.php");
       exit();
   }
 
   if(isset($_POST['ganti'])) {
-      $Username = $_SESSION['username'];
+      $username = $_SESSION['username'];
       $PasswordBaru = $_POST['PasswordBaru'];
 
       if(empty($PasswordBaru)) {
           $error = "Password baru tidak boleh kosong!";
       } else {
          
-          $update = mysqli_query($koneksi, "UPDATE users SET password = '$PasswordBaru' WHERE username = '$Username'");
+          $update = mysqli_query($koneksi, "UPDATE tbl_users SET password = '$PasswordBaru' WHERE username = '$username'");
           
           if($update) {
               echo "<script>alert('Password berhasil diubah! Silakan lanjutkan.'); window.location.href='index.php';</script>";

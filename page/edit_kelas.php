@@ -44,7 +44,7 @@ if(isset($_POST['update'])) {
                     <button type="submit" name="update" class="btn btn-warning">
                         <i class="fas fa-save"></i> Update
                     </button>
-                    <a href="index.php?page=guru" class="btn btn-secondary">
+                    <a href="index.php?page=kelas" class="btn btn-secondary">
                         <i class="fas fa-arrow-left"></i> Kembali
                     </a>
                 </div>

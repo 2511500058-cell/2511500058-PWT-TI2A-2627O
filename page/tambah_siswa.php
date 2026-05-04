@@ -4,13 +4,18 @@ if(isset($_POST['simpan'])) {
     $nama = $_POST['nm_siswa'];
     $jenkel = $_POST['jenkel'];
     $id_kelas = $_POST['id_kelas'];
+
+    $querySiswa = mysqli_query($koneksi, "INSERT INTO siswa VALUES ('$nis', '$nama', '$jenkel', '$id_kelas')");
+    $queryUser = mysqli_query($koneksi, "INSERT INTO tbl_users (username, password, role) VALUES ('$nis', '1234', 'siswa')");
+    
     
     $insert = mysqli_query($koneksi, "INSERT INTO siswa SET 
         nis='$nis', nm_siswa='$nama', jenkel='$jenkel', id_kelas='$id_kelas'");
     
-    if($insert) {
-        echo '<div class="alert alert-success">Data siswa berhasil disimpan!</div>';
-        echo '<meta http-equiv="refresh" content="1;url=index.php?page=siswa">';
+    if ($querySiswa && $queryUser) {
+        echo "<script>alert('Data Siswa & User berhasil disimpan'); window.location.href='index.php?page=siswa';</script>";
+    } else {
+        echo "<script>alert('Gagal menyimpan data!');</script>";
     }
 }
 ?>

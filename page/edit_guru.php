@@ -9,7 +9,7 @@ if(isset($_POST['update'])) {
     $pt = $_POST['pend_terakhir'];
     
     $update = mysqli_query($koneksi, "UPDATE guru SET 
-        kd_guru='$kd_guru_new', nama='$nm', jenkel='$jk', pend_terakhir='$pt' 
+        kd_guru='$kd_guru_new', nm_guru='$nm', jenkel='$jk', pend_terakhir='$pt' 
         WHERE kd_guru='$kd_guru'");
     
     if($update) {
@@ -43,9 +43,11 @@ if(isset($_POST['update'])) {
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
-                                <input type="text" name="nip" value="<?php echo $data['jenkel']; ?>" class="form-control">
+                                <select name="jenkel" class="form-control">
+                                    <option value="L" <?php if($data['jenkel'] == 'L') echo 'selected'; ?>>Laki-laki</option>
+                                    <option value="P" <?php if($data['jenkel'] == 'P') echo 'selected'; ?>>Perempuan</option>
+                                </select>
                             </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">

@@ -4,13 +4,17 @@ if(isset($_POST['simpan'])) {
     $nama = $_POST['nm_guru'];
     $jenkel = $_POST['jenkel'];
     $pend_terakhir = $_POST['pend_terakhir'];
+
+    $queryGuru = mysqli_query($koneksi, "INSERT INTO guru VALUES ('$kd_guru', '$nama', '$jenkel', '$pend_terakhir')");
+    $queryUser = mysqli_query($koneksi, "INSERT INTO tbl_users (username, password, role) VALUES ('$kd_guru', '1234', 'guru')");
     
     $insert = mysqli_query($koneksi, "INSERT INTO guru SET 
         kd_guru='$kd_guru', nm_guru='$nama', jenkel='$jenkel', pend_terakhir='$pend_terakhir'");
     
-    if($insert) {
-        echo '<div class="alert alert-success">Data guru berhasil disimpan!</div>';
-        echo '<meta http-equiv="refresh" content="1;url=index.php?page=guru">';
+    if ($queryGuru && $queryUser) {
+        echo "<script>alert('Data Guru & User berhasil disimpan'); window.location.href='index.php?page=guru';</script>";
+    } else {
+        echo "<script>alert('Gagal menyimpan data!');</script>";
     }
 }
 ?>
@@ -39,11 +43,12 @@ if(isset($_POST['simpan'])) {
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
-                                <input type="text" name="jenkel" class="form-control">
-                            </div>
-                        </div>
+                        <select name="Jenkel" class="form-control">
+                            <option value="Laki-laki">Laki-laki</option>
+                            <option value="Perempuan">Perempuan</option>
+                        </select>
                     </div>
-                        <div class="col-md-6">
+                        <div class="col-md-10">
                             <div class="form-group">
                                 <label>Pendidikan Terakhir</label>
                                 <input type="text" name="pend_terakhir" class="form-control">
