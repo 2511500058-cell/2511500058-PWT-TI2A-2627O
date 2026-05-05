@@ -1,9 +1,9 @@
 <?php
-// Statistik Dashboard (contoh data)
 $total_guru = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM guru"));
 $total_siswa = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa"));
 $total_kelas = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas"));
 $total_mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mapel"));
+$total_ekstrakulikuler = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ekstra_2511500058"));
 ?>
 
 <div class="row">
@@ -56,6 +56,19 @@ $total_mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mapel"));
         </div>
     </div>
 </div>
+<div class="col-lg-3 col-4">
+        <div class="small-box bg-danger">
+            <div class="inner">
+                <h3><?php echo $total_ekstrakulikuler; ?></h3>
+                <p>Total Ekstrakulikuler</p>
+            </div>
+            <div class="icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <a href="index.php?page=ekstra_2511500058" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-md-12">
@@ -71,7 +84,7 @@ $total_mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mapel"));
                             <span class="info-box-icon"><i class="fas fa-users"></i></span>
                             <div class="info-box-content">
                                 <span class="info-box-text">Manajemen Data</span>
-                                <span class="info-box-number"><?php echo $total_guru + $total_siswa + $total_kelas; ?> Items</span>
+                                <span class="info-box-number"><?php echo $total_guru + $total_siswa + $total_kelas + $total_ekstrakulikuler; ?> Items</span>
                             </div>
                         </div>
                     </div>
