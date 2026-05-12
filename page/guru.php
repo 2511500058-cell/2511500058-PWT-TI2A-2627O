@@ -1,8 +1,10 @@
 <?php
-if (isset($_GET['action']) == "hapus") {
-    $kd_guru = $_GET['kd'];
-    mysqli_query($koneksi, "DELETE FROM guru WHERE kd_guru='$kd_guru'");
-    echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
+if (isset($_GET['hapus'])) {
+    $id = $_GET['hapus'];
+    $delete = mysqli_query($koneksi, "DELETE FROM guru WHERE kd_guru='$id'");
+    if ($delete) {
+        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=guru';</script>";
+    }
 }
 ?>
 
@@ -24,7 +26,7 @@ if (isset($_GET['action']) == "hapus") {
                             <tr>
                                 <th>No</th>
                                 <th>KD Guru</th>
-                                <th>Nama</th>
+                                <th>Nama Guru</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Pendidikan Terakhir</th>
                                 <th>Aksi</th>
@@ -42,13 +44,12 @@ if (isset($_GET['action']) == "hapus") {
                                 <td><?php echo $data['nm_guru']; ?></td>
                                 <td><?php echo $data['jenkel']; ?></td>
                                 <td><?php echo $data['pend_terakhir']; ?></td>
-                                
                                 <td>
-                                    <a href="index.php?page=edit_guru&kd=<?php echo $data['kd_guru']; ?>" 
+                                    <a href="index.php?page=edit_guru&id=<?php echo $data['kd_guru']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=guru&action=hapus&kd=<?php echo $data['kd_guru']; ?>" 
+                                    <a href="index.php?page=guru&hapus=<?php echo $data['kd_guru']; ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Yakin hapus?')"
                                        title="Hapus">
