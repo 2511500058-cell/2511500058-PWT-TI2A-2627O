@@ -1,17 +1,18 @@
 <?php
-$id_ekstra = $_GET['id'];
-$data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM ekstra_2511500058 WHERE id_ekstra= '$id_ekstra'"));
+$kd = $_GET['id'];
+$query = mysqli_query($koneksi, "SELECT * FROM ekstra_2511500058 WHERE id_ekstra='$kd'");
+$data = mysqli_fetch_array($query);
 
-if(isset($_POST['update'])) {
-    $id_ekstra = $_POST['id_ekstra'];
-    $nama_ekstra = $_POST['nama_ekstra'];
-    $keterangan = $_POST['ket'];
-    $semester= $_POST['semester'];
-    $tahun_ajaran = $_POST['thn_ajaran'];
-    
-    $update = mysqli_query($koneksi, "UPDATE ekstra_2511500058 SET 
-        id_ekstra='$id_ekstra', nama_ekstra='$nama_ekstra', ket='$keterangan', semester='$semester', thn_ajaran='$tahun_ajaran' 
-        WHERE id_ekstra='$id_ekstra'");
+
+if (isset($_POST['update'])) {
+    $nm_ekstra = mysqli_real_escape_string($koneksi, $_POST['nama_ekstra']);
+    $keterangan = mysqli_real_escape_string($koneksi, $_POST['ket']);
+    $semester = $_POST['semester'];
+    $thn_ajaran = $_POST['thn_ajaran'];
+
+    $update = mysqli_query($koneksi, "UPDATE ekstra_2511500058 SET nama_ekstra='$nm_ekstra', ket='$keterangan', semester='$semester', thn_ajaran='$thn_ajaran'
+    WHERE id_ekstra='$kd'");
+
     
     if($update) {
         echo '<div class="alert alert-success">Data berhasil diupdate!</div>';
@@ -29,13 +30,7 @@ if(isset($_POST['update'])) {
             <form method="post">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>ID Ekstrakulikuler <span class="text-danger">*</span></label>
-                                <input type="text" name="id_ekstra" value="<?php echo $data['id_ekstra']; ?>" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nama <span class="text-danger">*</span></label>
                                 <input type="text" name="nama_ekstra" value="<?php echo $data['nama_ekstra']; ?>" class="form-control" required>
@@ -75,6 +70,7 @@ if(isset($_POST['update'])) {
                                 </select>
                             </div>
                         </div>
+                    </div>
                 <div class="card-footer">
                     <button type="submit" name="update" class="btn btn-warning">
                         <i class="fas fa-save"></i> Update

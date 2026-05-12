@@ -1,8 +1,10 @@
 <?php
-if (isset($_GET['action']) == "hapus") {
-    $id_ekstra = $_GET['id'];
-    mysqli_query($koneksi, "DELETE FROM ekstra_2511500058 WHERE id_ekstra='$id_ekstra'");
-    echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
+if (isset($_GET['hapus'])) {
+    $id = $_GET['hapus'];
+    $delete = mysqli_query($koneksi, "DELETE FROM ekstra_2511500058 WHERE id_ekstra='$id'");
+    if ($delete) {
+        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=ekstra_2511500058';</script>";
+    }
 }
 ?>
 
@@ -49,7 +51,7 @@ if (isset($_GET['action']) == "hapus") {
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=ekstra_2511500058&action=hapus&id=<?php echo $data['id_ekstra']; ?>" 
+                                    <a href="index.php?page=ekstra_2511500058&=hapus=<?php echo $data['id_ekstra']; ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Yakin hapus?')"
                                        title="Hapus">
