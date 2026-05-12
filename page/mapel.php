@@ -1,8 +1,10 @@
 <?php
-if (isset($_GET['action']) == "hapus") {
-    $kd_mapel = $_GET['kd'];
-    mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel='$kd_mapel'");
-    echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
+if (isset($_GET['hapus'])) {
+    $id = $_GET['hapus'];
+    $delete = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel='$id'");
+    if ($delete) {
+        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=mapel';</script>";
+    }
 }
 ?>
 
@@ -10,10 +12,10 @@ if (isset($_GET['action']) == "hapus") {
     <div class="col-12">
         <div class="card card-primary card-outline">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Mata Pelajaran</h3>
+                <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Mapel</h3>
                 <div class="card-tools">
                     <a href="index.php?page=tambah_mapel" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus"></i> Tambah Mata Pelajaran
+                        <i class="fas fa-plus"></i> Tambah Mapel
                     </a>
                 </div>
             </div>
@@ -40,13 +42,12 @@ if (isset($_GET['action']) == "hapus") {
                                 <td><strong><?php echo $data['kd_mapel']; ?></strong></td>
                                 <td><?php echo $data['nm_mapel']; ?></td>
                                 <td><?php echo $data['kkm']; ?></td>
-                                
                                 <td>
-                                    <a href="index.php?page=edit_mapel&kd=<?php echo $data['kd_mapel']; ?>" 
+                                    <a href="index.php?page=edit_mapel&id=<?php echo $data['kd_mapel']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=mapel&action=hapus&kd=<?php echo $data['kd_mapel']; ?>" 
+                                    <a href="index.php?page=mapel&hapus=<?php echo $data['kd_mapel']; ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Yakin hapus?')"
                                        title="Hapus">
