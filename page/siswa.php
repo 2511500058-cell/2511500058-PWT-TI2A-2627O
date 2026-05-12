@@ -1,8 +1,10 @@
 <?php
-if (isset($_GET['action']) == "hapus") {
-    $nis = $_GET['kd'];
-    mysqli_query($koneksi, "DELETE FROM siswa WHERE nis='$nis'");
-    echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
+if (isset($_GET['hapus'])) {
+    $id = $_GET['hapus'];
+    $delete = mysqli_query($koneksi, "DELETE FROM siswa WHERE nis='$id'");
+    if ($delete) {
+        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=siswa';</script>";
+    }
 }
 ?>
 
@@ -24,7 +26,7 @@ if (isset($_GET['action']) == "hapus") {
                             <tr>
                                 <th>No</th>
                                 <th>NIS</th>
-                                <th>Nama</th>
+                                <th>Nama Siswa</th>
                                 <th>Jenis Kelamin</th>
                                 <th>ID Kelas</th>
                                 <th>Aksi</th>
@@ -33,7 +35,7 @@ if (isset($_GET['action']) == "hapus") {
                         <tbody>
                             <?php
                             $no = 1;
-                            $query = mysqli_query($koneksi, "SELECT * FROM siswa ORDER BY nis");
+                            $query = mysqli_query($koneksi, "SELECT * FROM siswa ORDER BY nm_siswa");
                             while($data = mysqli_fetch_array($query)) {
                             ?>
                             <tr>
@@ -42,13 +44,12 @@ if (isset($_GET['action']) == "hapus") {
                                 <td><?php echo $data['nm_siswa']; ?></td>
                                 <td><?php echo $data['jenkel']; ?></td>
                                 <td><?php echo $data['id_kelas']; ?></td>
-                                
                                 <td>
-                                    <a href="index.php?page=edit_siswa&kd=<?php echo $data['nis']; ?>" 
+                                    <a href="index.php?page=edit_siswa&id=<?php echo $data['nis']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=siswa&action=hapus&kd=<?php echo $data['nis']; ?>" 
+                                    <a href="index.php?page=siswa&hapus=<?php echo $data['nis']; ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Yakin hapus?')"
                                        title="Hapus">

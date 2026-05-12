@@ -1,17 +1,17 @@
 <?php
-$nis = $_GET['kd'];
-$data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM siswa WHERE nis='$nis'"));
+$kd = $_GET['id'];
+$query = mysqli_query($koneksi, "SELECT * FROM siswa WHERE nis='$kd'");
+$data = mysqli_fetch_array($query);
 
-if(isset($_POST['update'])) {
-    $nis = $_POST['nis'];
-    $nm = $_POST['nm_siswa'];
-    $jk = $_POST['jenkel'];
-    $id = $_POST['id_kelas'];
-    
-    $update = mysqli_query($koneksi, "UPDATE siswa SET 
-        nis='$nis', nm_siswa='$nm', jenkel='$jk', id_kelas='$id' 
-        WHERE nis='$nis'");
-    
+
+if (isset($_POST['update'])) {
+    $nm_siswa = mysqli_real_escape_string($koneksi, $_POST['nama_siswa']);
+    $jenkel = $_POST['jenis_kelamin'];
+    $id_kelas = $_POST['id_kelas'];
+
+    $update = mysqli_query($koneksi, "UPDATE siswa SET nm_siswa='$nm_siswa', jenkel='$jenkel', id_kelas='$id_kelas' 
+    WHERE nis='$kd'");
+
     if($update) {
         echo '<div class="alert alert-success">Data berhasil diupdate!</div>';
         echo '<meta http-equiv="refresh" content="1;url=index.php?page=siswa">';
@@ -23,38 +23,32 @@ if(isset($_POST['update'])) {
     <div class="col-md-8">
         <div class="card card-warning">
             <div class="card-header">
-                <h3 class="card-title"><i class="fas fa-edit"></i> Edit Data Siswa</h3>
+                <h3 class="card-title"><i class="fas fa-edit"></i> Edit Siswa</h3>
             </div>
             <form method="post">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>NIS <span class="text-danger">*</span></label>
-                                <input type="text" name="nis" value="<?php echo $data['nis']; ?>" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nama <span class="text-danger">*</span></label>
-                                <input type="text" name="nm_siswa" value="<?php echo $data['nm_siswa']; ?>" class="form-control" required>
+                                <input type="text" name="nama_siswa" value="<?php echo $data['nm_siswa']; ?>" class="form-control" required>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Jenis Kelamin</label>
-                                <select name="jenkel" class="form-control">
-                                    <option value="L" <?php if($data['jenkel'] == 'L') echo 'selected'; ?>>Laki-laki</option>
-                                    <option value="P" <?php if($data['jenkel'] == 'P') echo 'selected'; ?>>Perempuan</option>
+                                <select name="jenis_kelamin" class="form-control" required>
+                                    <option value="Laki-laki" <?php if($data['jenkel'] == 'Laki-laki') echo 'selected'; ?>>Laki-laki</option>
+                                    <option value="Perempuan" <?php if($data['jenkel'] == 'Perempuan') echo 'selected'; ?>>Perempuan</option>
                                 </select>
                             </div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>ID Kelas</label>
-                                <input type="text" name="id_kelas" value="<?php echo $data['id_kelas']; ?>" class="form-control">
+                                <input type="text" name="id_kelas" value="<?php echo $data['id_kelas']; ?>" class="form-control" required>
                             </div>
                         </div>
                     </div>
