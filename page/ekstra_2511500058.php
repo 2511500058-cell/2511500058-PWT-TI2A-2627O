@@ -51,10 +51,9 @@ if (isset($_GET['hapus'])) {
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=ekstra_2511500058&=hapus=<?php echo $data['id_ekstra']; ?>" 
-                                       class="btn btn-danger btn-sm" 
-                                       onclick="return confirm('Yakin hapus?')"
-                                       title="Hapus">
+                                    <a href="index.php?page=ekstra_2511500058&hapus=<?php echo $data['id_ekstra']; ?>
+                                    "class="btn btn-danger btn-sm" 
+                                    onclick="return confirm('Yakin hapus?')">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
