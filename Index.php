@@ -156,7 +156,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="index.php?page=jadwal" class="nav-link">
+                <a href="index.php?page=jadwal" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jadwal Pelajaran</p>
                 </a>
@@ -164,22 +164,11 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             </ul>
           </li>
 
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+          <li class="nav-item">
+            <a href="index.php?page=ekstra_2511500058" class="nav-link <?php echo $page=='ekstra_2511500058' ? 'active' : ''; ?>">
               <i class="nav-icon fas fa-star"></i>
-              <p>
-                Ekstrakulikuler
-                <i class="right fas fa-angle-left"></i>
-              </p>
+              <p>Ekstrakulikuler</p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="index.php?page=ekstra_2511500058" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ekstrakulikuler</p>
-                </a>
-              </li>
-            </ul>
           </li>
 
           <?php elseif($role == 'guru'): ?>
