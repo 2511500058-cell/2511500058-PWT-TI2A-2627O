@@ -191,7 +191,7 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
                 </a>
               </li>
               <li class="nav-item">
-                <a href="index.php?page=?" class="nav-link">
+                <a href="index.php?page=jadwal_guru" class="nav-link <?php echo $page=='jadwal_guru' ? 'active' : ''; ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jadwal Saya</p>
                 </a>
@@ -231,13 +231,13 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="index.php?page=?" class="nav-link">
+                <a href="index.php?page=jadwal_siswa" class="nav-link <?php echo $page=='jadwal_siswa' ? 'active' : ''; ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Jadwal Saya</p>
                 </a>
-              </li>
+              </li> 
               <li class="nav-item">
-                <a href="index.php?page=?" class="nav-link">
+                <a href="index.php?page=raport" class="nav-link <?php echo $page=='raport' ? 'active' : ''; ?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Raport Nilai</p>
                 </a>

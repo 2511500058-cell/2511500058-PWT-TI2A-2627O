@@ -42,8 +42,8 @@ if (isset($_GET['hapus'])) {
                             $no = 1;
                             // Join ke tabel guru dan kelas sekaligus agar semua teks terbaca sempurna
                             $query = mysqli_query($koneksi, "SELECT * FROM jadwal_kelas 
-                                     JOIN guru ON jadwal_kelas.kd_guru = guru.kd_guru 
-                                     JOIN kelas ON jadwal_kelas.id_kelas = kelas.id_kelas");
+                            JOIN guru ON jadwal_kelas. kd_guru = guru. kd_guru 
+                            JOIN kelas ON jadwal_kelas. id_kelas = kelas. id_kelas");
                             while($data = mysqli_fetch_array($query)) {
                             ?>
                             <tr>
@@ -54,19 +54,26 @@ if (isset($_GET['hapus'])) {
                                 <td><?php echo ucfirst($data['semester']); ?></td>
                                 <td><?php echo $data['thn_ajaran']; ?></td>
                                 <td>
+
                                     <ul>
-                                        <?php
-                                        $id_jadwal = $data['id_jadwal'];
-                                        $detail_query = mysqli_query($koneksi, "SELECT * FROM detail_jadwal 
-                                                        JOIN mapel ON detail_jadwal.kd_mapel = mapel.kd_mapel 
-                                                        WHERE id_jadwal='$id_jadwal'");
-                                        while($detail = mysqli_fetch_array($detail_query)) {
-                                            echo "<li>" . $detail['nm_mapel'] . " (" . $detail['hari'] . " / " . substr($detail['jam_mulai'], 0, 5) . "-" . substr($detail['jam_selesai'], 0, 5) . ")</li>";
-                                        }
-                                        ?>
+                                    <?php
+                                    $id_jadwal = $data['id_jadwal'];
+                                    $detail_query = mysqli_query($koneksi, "SELECT * FROM detail_jadwal 
+                                    JOIN mapel ON detail_jadwal. kd_mapel = mapel. kd_mapel 
+                                    WHERE id_jadwal='$id_jadwal'");
+                                    while($detail = mysqli_fetch_array($detail_query)) {
+                                    echo "<li>" . $detail['nm_mapel'] . " (" . $detail['hari'] . " / " . substr($detail['jam_mulai'], 0, 5) . "-" . substr($detail['jam_selesai'], 0, 5) . ")</li>";
+                                    }
+                                    ?>
                                     </ul>
                                 </td>
                                 <td>
+                                    <a href="cetak_jadwal.php?id=<?php echo $data['id_jadwal']; ?>" 
+                                       target="_blank" 
+                                       class="btn btn-success btn-sm" 
+                                       title="Cetak Jadwal">
+                                        <i class="fas fa-print"></i>
+                                    </a>
                                     <a href="index.php?page=jadwal&hapus=<?php echo $data['id_jadwal']; ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Yakin hapus jadwal ini?')"

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 01, 2026 at 08:03 AM
+-- Generation Time: Jun 01, 2026 at 09:52 AM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -156,6 +156,13 @@ CREATE TABLE `siswa` (
   `id_kelas` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `siswa`
+--
+
+INSERT INTO `siswa` (`nis`, `nm_siswa`, `jenkel`, `id_kelas`) VALUES
+(555, 'Tio', 'L', 12);
+
 -- --------------------------------------------------------
 
 --
@@ -178,9 +185,8 @@ INSERT INTO `tbl_users` (`id_users`, `username`, `password`, `role`) VALUES
 (11, 'guru', '1111', 'guru'),
 (13, 'siswa', '1112', 'siswa'),
 (32, '100', '1212', 'guru'),
-(34, '110', '1111', 'siswa'),
 (35, '100', '1234', 'guru'),
-(36, '555', '1234', 'siswa');
+(37, '555', '1111', 'siswa');
 
 --
 -- Indexes for dumped tables
@@ -270,7 +276,7 @@ ALTER TABLE `mapel`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_users` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id_users` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
