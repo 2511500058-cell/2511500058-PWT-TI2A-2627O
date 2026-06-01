@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 05, 2026 at 05:02 AM
+-- Generation Time: Jun 01, 2026 at 08:03 AM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -24,11 +24,34 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `detail_jadwal`
+--
+
+CREATE TABLE `detail_jadwal` (
+  `id_detail` int(11) NOT NULL,
+  `id_jadwal` int(10) NOT NULL,
+  `kd_mapel` int(10) NOT NULL,
+  `kd_guru` int(5) NOT NULL,
+  `hari` varchar(15) NOT NULL,
+  `jam_mulai` time NOT NULL,
+  `jam_selesai` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `detail_jadwal`
+--
+
+INSERT INTO `detail_jadwal` (`id_detail`, `id_jadwal`, `kd_mapel`, `kd_guru`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
+(1, 1, 100, 100, 'Selasa', '09:00:00', '11:00:00');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `ekstra_2511500058`
 --
 
 CREATE TABLE `ekstra_2511500058` (
-  `id_ekstra` varchar(5) NOT NULL,
+  `id_ekstra` int(5) NOT NULL,
   `nama_ekstra` varchar(50) NOT NULL,
   `ket` varchar(20) NOT NULL,
   `semester` int(5) NOT NULL,
@@ -40,8 +63,7 @@ CREATE TABLE `ekstra_2511500058` (
 --
 
 INSERT INTO `ekstra_2511500058` (`id_ekstra`, `nama_ekstra`, `ket`, `semester`, `thn_ajaran`) VALUES
-('100', 'Futsal', 'BBB', 8, '2024/2025'),
-('110', 'AEC', 'E-sport', 2, '2025/2026');
+(100, 'AECC', 'Gamer', 1, '2023/2024');
 
 -- --------------------------------------------------------
 
@@ -61,7 +83,28 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`kd_guru`, `nm_guru`, `jenkel`, `pend_terakhir`) VALUES
-(100, 'Reza', 'Laki-laki', 'S1');
+(100, 'Sarah', 'Perempuan', 'S2');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `jadwal_kelas`
+--
+
+CREATE TABLE `jadwal_kelas` (
+  `id_jadwal` int(10) NOT NULL,
+  `kd_guru` int(5) NOT NULL,
+  `id_kelas` int(10) NOT NULL,
+  `thn_ajaran` varchar(20) NOT NULL,
+  `semester` enum('ganjil','genap') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `jadwal_kelas`
+--
+
+INSERT INTO `jadwal_kelas` (`id_jadwal`, `kd_guru`, `id_kelas`, `thn_ajaran`, `semester`) VALUES
+(1, 100, 110, '2025/2026', 'genap');
 
 -- --------------------------------------------------------
 
@@ -79,7 +122,7 @@ CREATE TABLE `kelas` (
 --
 
 INSERT INTO `kelas` (`id_kelas`, `nm_kelas`) VALUES
-(12, 'TI2A');
+(110, 'TI2B');
 
 -- --------------------------------------------------------
 
@@ -98,7 +141,7 @@ CREATE TABLE `mapel` (
 --
 
 INSERT INTO `mapel` (`kd_mapel`, `nm_mapel`, `kkm`) VALUES
-(111, 'PWT', 100);
+(100, 'PWT', 75);
 
 -- --------------------------------------------------------
 
@@ -112,13 +155,6 @@ CREATE TABLE `siswa` (
   `jenkel` varchar(20) NOT NULL,
   `id_kelas` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `siswa`
---
-
-INSERT INTO `siswa` (`nis`, `nm_siswa`, `jenkel`, `id_kelas`) VALUES
-(110, 'Tio', 'L', 12);
 
 -- --------------------------------------------------------
 
@@ -142,11 +178,22 @@ INSERT INTO `tbl_users` (`id_users`, `username`, `password`, `role`) VALUES
 (11, 'guru', '1111', 'guru'),
 (13, 'siswa', '1112', 'siswa'),
 (32, '100', '1212', 'guru'),
-(34, '110', '1111', 'siswa');
+(34, '110', '1111', 'siswa'),
+(35, '100', '1234', 'guru'),
+(36, '555', '1234', 'siswa');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `detail_jadwal`
+--
+ALTER TABLE `detail_jadwal`
+  ADD PRIMARY KEY (`id_detail`),
+  ADD KEY `kd_mapel` (`kd_mapel`),
+  ADD KEY `kd_guru` (`kd_guru`),
+  ADD KEY `id_jadwal` (`id_jadwal`);
 
 --
 -- Indexes for table `ekstra_2511500058`
@@ -159,6 +206,13 @@ ALTER TABLE `ekstra_2511500058`
 --
 ALTER TABLE `guru`
   ADD PRIMARY KEY (`kd_guru`);
+
+--
+-- Indexes for table `jadwal_kelas`
+--
+ALTER TABLE `jadwal_kelas`
+  ADD PRIMARY KEY (`id_jadwal`),
+  ADD KEY `kd_guru` (`kd_guru`);
 
 --
 -- Indexes for table `kelas`
@@ -189,16 +243,34 @@ ALTER TABLE `tbl_users`
 --
 
 --
+-- AUTO_INCREMENT for table `detail_jadwal`
+--
+ALTER TABLE `detail_jadwal`
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `ekstra_2511500058`
+--
+ALTER TABLE `ekstra_2511500058`
+  MODIFY `id_ekstra` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+
+--
+-- AUTO_INCREMENT for table `jadwal_kelas`
+--
+ALTER TABLE `jadwal_kelas`
+  MODIFY `id_jadwal` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `mapel`
 --
 ALTER TABLE `mapel`
-  MODIFY `kd_mapel` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
+  MODIFY `kd_mapel` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_users` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id_users` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
