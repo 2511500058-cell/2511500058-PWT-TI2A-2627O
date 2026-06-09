@@ -1,5 +1,6 @@
 <?php
-if (isset($_GET['hapus'])) {
+// Proteksi proses hapus: Hanya berjalan jika user adalah admin
+if (isset($_GET['hapus']) && $role == 'admin') {
     $id = $_GET['hapus'];
     $delete = mysqli_query($koneksi, "DELETE FROM guru WHERE kd_guru='$id'");
     if ($delete) {
@@ -14,9 +15,11 @@ if (isset($_GET['hapus'])) {
             <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Guru</h3>
                 <div class="card-tools">
+                    <?php if ($role == 'admin') { ?>
                     <a href="index.php?page=tambah_guru" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus"></i> Tambah Guru
                     </a>
+                    <?php } ?>
                 </div>
             </div>
             <div class="card-body">
@@ -29,13 +32,15 @@ if (isset($_GET['hapus'])) {
                                 <th>Nama Guru</th>
                                 <th>Jenis Kelamin</th>
                                 <th>Pendidikan Terakhir</th>
+                                <?php if ($role == 'admin') { ?>
                                 <th>Aksi</th>
+                                <?php } ?>
                             </tr>
                         </thead>
                         <tbody>
                             <?php
                             $no = 1;
-                            $query = mysqli_query($koneksi, "SELECT * FROM guru ORDER BY nm_guru");
+                            $query = mysqli_query($koneksi, "SELECT * FROM guru");
                             while($data = mysqli_fetch_array($query)) {
                             ?>
                             <tr>
@@ -44,6 +49,7 @@ if (isset($_GET['hapus'])) {
                                 <td><?php echo $data['nm_guru']; ?></td>
                                 <td><?php echo $data['jenkel']; ?></td>
                                 <td><?php echo $data['pend_terakhir']; ?></td>
+                                <?php if ($role == 'admin') { ?>
                                 <td>
                                     <a href="index.php?page=edit_guru&id=<?php echo $data['kd_guru']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
@@ -56,6 +62,7 @@ if (isset($_GET['hapus'])) {
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
+                                <?php } ?>
                             </tr>
                             <?php } ?>
                         </tbody>

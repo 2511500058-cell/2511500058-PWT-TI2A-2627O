@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 01, 2026 at 09:52 AM
+-- Generation Time: Jun 02, 2026 at 04:32 AM
 -- Server version: 5.7.33
 -- PHP Version: 7.4.19
 
@@ -42,7 +42,9 @@ CREATE TABLE `detail_jadwal` (
 --
 
 INSERT INTO `detail_jadwal` (`id_detail`, `id_jadwal`, `kd_mapel`, `kd_guru`, `hari`, `jam_mulai`, `jam_selesai`) VALUES
-(1, 1, 100, 100, 'Selasa', '09:00:00', '11:00:00');
+(1, 1, 100, 100, 'Selasa', '09:00:00', '11:00:00'),
+(2, 2, 100, 100, 'Selasa', '10:30:00', '13:00:00'),
+(3, 3, 100, 100, 'Selasa', '10:30:00', '13:00:00');
 
 -- --------------------------------------------------------
 
@@ -83,7 +85,7 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`kd_guru`, `nm_guru`, `jenkel`, `pend_terakhir`) VALUES
-(100, 'Sarah', 'Perempuan', 'S2');
+(100, 'Reza', 'Laki-laki', 'S1');
 
 -- --------------------------------------------------------
 
@@ -104,7 +106,9 @@ CREATE TABLE `jadwal_kelas` (
 --
 
 INSERT INTO `jadwal_kelas` (`id_jadwal`, `kd_guru`, `id_kelas`, `thn_ajaran`, `semester`) VALUES
-(1, 100, 110, '2025/2026', 'genap');
+(1, 100, 110, '2025/2026', 'genap'),
+(2, 100, 110, '2025/2026', 'genap'),
+(3, 100, 12, '2025/2026', 'genap');
 
 -- --------------------------------------------------------
 
@@ -122,7 +126,7 @@ CREATE TABLE `kelas` (
 --
 
 INSERT INTO `kelas` (`id_kelas`, `nm_kelas`) VALUES
-(110, 'TI2B');
+(12, 'TI2A');
 
 -- --------------------------------------------------------
 
@@ -141,7 +145,7 @@ CREATE TABLE `mapel` (
 --
 
 INSERT INTO `mapel` (`kd_mapel`, `nm_mapel`, `kkm`) VALUES
-(100, 'PWT', 75);
+(100, 'PWT', 70);
 
 -- --------------------------------------------------------
 
@@ -161,7 +165,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`nis`, `nm_siswa`, `jenkel`, `id_kelas`) VALUES
-(555, 'Tio', 'L', 12);
+(500, 'Tio', 'L', 12);
 
 -- --------------------------------------------------------
 
@@ -184,9 +188,17 @@ INSERT INTO `tbl_users` (`id_users`, `username`, `password`, `role`) VALUES
 (1, 'admin', 'admin', 'admin'),
 (11, 'guru', '1111', 'guru'),
 (13, 'siswa', '1112', 'siswa'),
-(32, '100', '1212', 'guru'),
-(35, '100', '1234', 'guru'),
-(37, '555', '1111', 'siswa');
+(32, '100', '1112', 'guru'),
+(35, '100', '1112', 'guru'),
+(37, '555', '1111', 'siswa'),
+(38, '555', '1234', 'siswa'),
+(39, '500', '1111', 'siswa'),
+(40, '500', '1111', 'siswa'),
+(41, '100', '1112', 'siswa'),
+(42, '100', '1112', 'siswa'),
+(43, '100', '1112', 'guru'),
+(44, '500', '1111', 'siswa'),
+(45, '500', '1111', 'siswa');
 
 --
 -- Indexes for dumped tables
@@ -252,7 +264,7 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `detail_jadwal`
 --
 ALTER TABLE `detail_jadwal`
-  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_detail` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ekstra_2511500058`
@@ -264,7 +276,7 @@ ALTER TABLE `ekstra_2511500058`
 -- AUTO_INCREMENT for table `jadwal_kelas`
 --
 ALTER TABLE `jadwal_kelas`
-  MODIFY `id_jadwal` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_jadwal` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `mapel`
@@ -276,7 +288,7 @@ ALTER TABLE `mapel`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_users` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+  MODIFY `id_users` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -2,7 +2,7 @@
 $kd = $_GET['id'];
 $query = mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kd'");
 $data = mysqli_fetch_array($query);
-
+ 
 
 if (isset($_POST['update'])) {
     $nm = $_POST['nm_kelas'];
@@ -15,6 +15,13 @@ if (isset($_POST['update'])) {
         echo '<div class="alert alert-success">Data berhasil diupdate!</div>';
         echo '<meta http-equiv="refresh" content="1;url=index.php?page=kelas">';
     }
+}
+?>
+
+<?php
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=kelas';</script>";
+    exit;
 }
 ?>
 

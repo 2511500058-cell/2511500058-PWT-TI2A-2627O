@@ -13,6 +13,13 @@ if(isset($_POST['simpan'])) {
 }
 ?>
 
+<?php
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=kelas';</script>";
+    exit;
+}
+?>
+
 <div class="row">
     <div class="col-md-8">
         <div class="card card-primary">

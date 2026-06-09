@@ -8,6 +8,13 @@ if (isset($_GET['hapus'])) {
 }
 ?>
 
+<?php
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak!'); window.location.href='index.php?page=siswa';</script>";
+    exit;
+}
+?>
+
 <div class="data">
     <div class="col-12">
         <div class="card card-primary card-outline">

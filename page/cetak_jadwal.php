@@ -1,102 +1,84 @@
 <?php
-session_start();
-include "config/koneksi.php";
-
-// Proteksi: Hanya Admin yang bisa cetak
-if(!isset($_SESSION['username']) || $_SESSION['role'] != 'admin'){
-    echo "<script>alert('Akses Ditolak! Hanya Admin yang dapat mencetak.'); window.close();</script>";
-    exit;
+// 1. Cek status session agar tidak muncul pesan error "session had already been started"
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
 }
 
-if(isset($_GET['id'])) {
-    $id_jadwal = $_GET['id'];
-    // Query mengambil data utama jadwal beserta guru utama dan nama kelas
-    $query = mysqli_query($koneksi, "SELECT * FROM jadwal_kelas 
-            JOIN guru ON jadwal_kelas.kd_guru = guru.kd_guru 
-            JOIN kelas ON jadwal_kelas.id_kelas = kelas.id_kelas
-            WHERE id_jadwal = '$id_jadwal'");
-    $data = mysqli_fetch_array($query);
-    
-    if(!$data) { 
-        echo "Jadwal tidak ditemukan."; 
-        exit; 
-    }
-} else {
-    echo "ID Jadwal tidak ditentukan.";
-    exit;
-}
+// Sesuaikan path ini jika file koneksi ada di folder luar
+include "../config/koneksi.php"; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cetak Jadwal - <?php echo $data['nm_kelas']; ?></title>
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
+    <title>Cetak Jadwal Pelajaran</title>
+    <link rel="stylesheet" href="../dist/css/adminlte.min.css">
     <style>
-        body { padding: 30px; background-color: #fff !important; color: #000 !important; }
+        body { padding: 30px; background-color: #fff !important; color: #000 !important; font-family: sans-serif; }
+        .table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .table, .table th, .table td { border: 1px solid black; }
+        .table th, .table td { padding: 8px; text-align: center; }
         @media print {
             .no-print { display: none; }
         }
     </style>
 </head>
 <body>
-    <div class="text-center mb-4">
+    <div class="text-center mb-4" style="text-align: center;">
         <h2>SISTEM INFORMASI AKADEMIK SEKOLAH</h2>
-        <h3>JADWAL PELAJARAN KELAS</h3>
+        <h3>JADWAL PELAJARAN KESELURUHAN</h3>
         <hr style="border-top: 3px double #000;">
     </div>
 
-    <div class="row mb-3">
-        <div class="col-6">
-            <table>
-                <tr><td><strong>Kelas</strong></td><td> : <?php echo $data['nm_kelas']; ?></td></tr>
-                <tr><td><strong>Tahun Ajaran</strong></td><td> : <?php echo $data['thn_ajaran']; ?></td></tr>
-            </table>
-        </div>
-        <div class="col-6 text-right">
-            <table>
-                <tr><td><strong>Semester</strong></td><td> : <?php echo ucfirst($data['semester']); ?></td></tr>
-                <tr><td><strong>Wali / Guru Kelas</strong></td><td> : <?php echo $data['nm_guru']; ?></td></tr>
-            </table>
-        </div>
-    </div>
-
-    <table class="table table-bordered">
+    <table class="table">
         <thead class="thead-light">
-            <tr class="text-center">
+            <tr>
                 <th width="5%">No</th>
+                <th>Kelas</th>
+                <th>Tahun Ajaran</th>
+                <th>Semester</th>
                 <th>Mata Pelajaran</th>
+                <th>Guru Pengampu</th>
                 <th>Hari</th>
-                <th>Jam Mulai</th>
-                <th>Jam Selesai</th>
+                <th>Waktu</th>
             </tr>
         </thead>
         <tbody>
             <?php
             $no = 1;
-            // Query mengambil detail mata pelajaran di dalam jadwal tersebut
-            $detail_query = mysqli_query($koneksi, "SELECT * FROM detail_jadwal 
-                            JOIN mapel ON detail_jadwal .kd_mapel = mapel. kd_mapel 
-                            WHERE id_jadwal='$id_jadwal' ORDER BY hari, jam_mulai");
-            while($detail = mysqli_fetch_array($detail_query)) {
-                echo "<tr class='text-center'>";
-                echo "<td>".$no++."</td>";
-                echo "<td>".$detail['nm_mapel']."</td>";
-                echo "<td>".$detail['hari']."</td>";
-                echo "<td>".substr($detail['jam_mulai'], 0, 5)."</td>";
-                echo "<td>".substr($detail['jam_selesai'], 0, 5)."</td>";
-                echo "</tr>";
-            }
-            if(mysqli_num_rows($detail_query) == 0) {
-                echo "<tr><td colspan='5' class='text-center'>Belum ada detail mata pelajaran.</td></tr>";
+            // 2. Menggunakan Query JOIN yang persis sama dengan jadwal.php
+            $query = "SELECT j.*, k.nm_kelas, m.nm_mapel, g.nm_guru 
+                      FROM jadwal j 
+                      JOIN kelas k ON j.id_kelas = k.id_kelas 
+                      JOIN mapel m ON j.kd_mapel = m.kd_mapel 
+                      JOIN guru g ON j.kd_guru = g.kd_guru 
+                      ORDER BY k.nm_kelas ASC, FIELD(j.hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'), j.jam_mulai ASC";
+            
+            $sql = mysqli_query($koneksi, $query);
+            
+            // 3. Menampilkan data dengan looping
+            if ($sql && mysqli_num_rows($sql) > 0) {
+                while($data = mysqli_fetch_array($sql)) {
+                    echo "<tr>";
+                    echo "<td>".$no++."</td>";
+                    echo "<td><strong>".$data['nm_kelas']."</strong></td>";
+                    echo "<td>".$data['thn_ajaran']."</td>";
+                    echo "<td>".ucwords($data['semester'])."</td>";
+                    echo "<td>".$data['nm_mapel']."</td>";
+                    echo "<td>".$data['nm_guru']."</td>";
+                    echo "<td>".$data['hari']."</td>";
+                    echo "<td>".substr($data['jam_mulai'], 0, 5)." - ".substr($data['jam_selesai'], 0, 5)."</td>";
+                    echo "</tr>";
+                }
+            } else {
+                echo "<tr><td colspan='8'>Belum ada data jadwal yang tersedia.</td></tr>";
             }
             ?>
         </tbody>
     </table>
 
-    <div class="row mt-5">
-        <div class="col-8"></div>
-        <div class="col-4 text-center">
+    <div class="row mt-5" style="display: flex; justify-content: flex-end; margin-top: 50px;">
+        <div style="text-align: center; width: 250px;">
             <p>Mengetahui,</p>
             <p>Kepala Sekolah</p>
             <br><br><br>
@@ -104,13 +86,13 @@ if(isset($_GET['id'])) {
         </div>
     </div>
 
-    <div class="text-center mt-4 no-print">
-        <button onclick="window.print()" class="btn btn-primary"><i class="fas fa-print"></i> Cetak</button>
-        <button onclick="window.close()" class="btn btn-secondary">Tutup</button>
+    <div class="text-center mt-4 no-print" style="text-align: center; margin-top: 30px;">
+        <button onclick="window.print()" class="btn btn-primary" style="padding: 10px 20px; cursor: pointer;">Cetak</button>
+        <button onclick="window.close()" class="btn btn-secondary" style="padding: 10px 20px; cursor: pointer;">Tutup</button>
     </div>
 
     <script>
-        // Memicu fungsi cetak bawaan browser otomatis saat halaman dimuat
+        // Memicu fungsi cetak otomatis saat halaman dimuat
         window.onload = function() { window.print(); }
     </script>
 </body>

@@ -19,6 +19,13 @@ if (isset($_POST['update'])) {
 }
 ?>
 
+<?php
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak!'); window.location.href='index.php?page=siswa';</script>";
+    exit;
+}
+?>
+
 <div class="row">
     <div class="col-md-8">
         <div class="card card-warning">

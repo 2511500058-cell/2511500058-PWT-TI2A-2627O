@@ -1,10 +1,8 @@
 <?php
-if (isset($_GET['hapus'])) {
-    $kd = $_GET['hapus'];
-    $delete = mysqli_query($koneksi, "DELETE FROM kelas WHERE id_kelas='$kd'");
-    if ($delete) {
-        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=kelas';</script>";
-    }
+if (isset($_GET['action']) == "hapus") {
+    $id_kelas = $_GET['kd'];
+    mysqli_query($koneksi, "DELETE FROM kelas WHERE id_kelas ='$id_kelas'");
+    echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
 }
 ?>
 
@@ -14,9 +12,11 @@ if (isset($_GET['hapus'])) {
             <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Kelas</h3>
                 <div class="card-tools">
+                    <?php if ($role == 'admin') { ?>
                     <a href="index.php?page=tambah_kelas" class="btn btn-sm btn-primary">
-                        <i class="fas fa-plus"></i> Tambah Kelas
+                    <i class="fas fa-plus"></i> Tambah Kelas
                     </a>
+                    <?php } ?>
                 </div>
             </div>
             <div class="card-body">
@@ -41,11 +41,11 @@ if (isset($_GET['hapus'])) {
                                 <td><strong><?php echo $data['id_kelas']; ?></strong></td>
                                 <td><?php echo $data['nm_kelas']; ?></td>
                                 <td>
-                                    <a href="index.php?page=edit_kelas&id=<?php echo $data['id_kelas']; ?>" 
+                                    <a href="index.php?page=edit_kelas&kd=<?php echo $data['id_kelas']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=kelas&hapus=<?php echo $data['id_kelas']; ?>" 
+                                    <a href="index.php?page=kelas&action=hapus&kd=<?php echo $data['id_kelas']; ?>" 
                                        class="btn btn-danger btn-sm" 
                                        onclick="return confirm('Yakin hapus?')"
                                        title="Hapus">
