@@ -1,27 +1,25 @@
 <?php
-$kd = $_GET['id'];
+// 1. Proteksi Halaman: Wajib ditaruh paling atas agar Guru/Siswa langsung ditendang keluar
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=kelas';</script>";
+    exit;
+}
+
+// 2. Ambil parameter 'kd' (Diselaraskan dengan tombol edit di kelas.php)
+$kd = isset($_GET['kd']) ? $_GET['kd'] : '';
 $query = mysqli_query($koneksi, "SELECT * FROM kelas WHERE id_kelas='$kd'");
 $data = mysqli_fetch_array($query);
- 
 
+// 3. Proses Update Data
 if (isset($_POST['update'])) {
     $nm = $_POST['nm_kelas'];
 
-    $update = mysqli_query($koneksi, "UPDATE kelas SET nm_kelas='$nm'
-    WHERE id_kelas='$kd'");
-
+    $update = mysqli_query($koneksi, "UPDATE kelas SET nm_kelas='$nm' WHERE id_kelas='$kd'");
     
     if($update) {
         echo '<div class="alert alert-success">Data berhasil diupdate!</div>';
         echo '<meta http-equiv="refresh" content="1;url=index.php?page=kelas">';
     }
-}
-?>
-
-<?php
-if ($role != 'admin') {
-    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=kelas';</script>";
-    exit;
 }
 ?>
 
@@ -37,7 +35,7 @@ if ($role != 'admin') {
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Nama <span class="text-danger">*</span></label>
-                                <input type="text" name="nm_kelas" value="<?php echo $data['nm_kelas']; ?>" class="form-control" required>
+                                <input type="text" name="nm_kelas" value="<?php echo isset($data['nm_kelas']) ? $data['nm_kelas'] : ''; ?>" class="form-control" required>
                             </div>
                         </div>
                     </div>

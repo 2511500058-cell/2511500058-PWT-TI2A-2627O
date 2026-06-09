@@ -1,12 +1,18 @@
 <?php
-$total_guru = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM guru"));
-$total_siswa = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa"));
+// Ambil role dari session
+$role = isset($_SESSION['role']) ? $_SESSION['role'] : '';
+
+// Jalankan query secara kondisional sesuai dengan role untuk efisiensi database
+$total_guru = ($role != 'siswa') ? mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM guru")) : 0;
+$total_siswa = ($role != 'guru') ? mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM siswa")) : 0;
+
 $total_kelas = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM kelas"));
 $total_mapel = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM mapel"));
 $total_ekstrakulikuler = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM ekstra_2511500058"));
 ?>
 
 <div class="row">
+    <?php if ($role != 'siswa'): ?>
     <div class="col-lg-3 col-6">
         <div class="small-box bg-info">
             <div class="inner">
@@ -19,6 +25,9 @@ $total_ekstrakulikuler = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM e
             <a href="index.php?page=guru" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+    <?php endif; ?>
+
+    <?php if ($role != 'guru'): ?>
     <div class="col-lg-3 col-6">
         <div class="small-box bg-success">
             <div class="inner">
@@ -31,6 +40,8 @@ $total_ekstrakulikuler = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM e
             <a href="index.php?page=siswa" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+    <?php endif; ?>
+
     <div class="col-lg-3 col-6">
         <div class="small-box bg-warning">
             <div class="inner">
@@ -43,6 +54,7 @@ $total_ekstrakulikuler = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM e
             <a href="index.php?page=kelas" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
+
     <div class="col-lg-3 col-6">
         <div class="small-box bg-danger">
             <div class="inner">
@@ -55,15 +67,15 @@ $total_ekstrakulikuler = mysqli_num_rows(mysqli_query($koneksi, "SELECT * FROM e
             <a href="index.php?page=mapel" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>
-</div>
-<div class="col-lg-3 col-4">
-        <div class="small-box bg-danger">
+
+    <div class="col-lg-3 col-6">
+        <div class="small-box bg-gradient-secondary">
             <div class="inner">
                 <h3><?php echo $total_ekstrakulikuler; ?></h3>
                 <p>Total Ekstrakulikuler</p>
             </div>
             <div class="icon">
-                <i class="fas fa-book"></i>
+                <i class="fas fa-star"></i>
             </div>
             <a href="index.php?page=ekstra_2511500058" class="small-box-footer">Lihat <i class="fas fa-arrow-circle-right"></i></a>
         </div>

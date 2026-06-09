@@ -1,8 +1,13 @@
 <?php
-if (isset($_GET['action']) == "hapus") {
-    $id_kelas = $_GET['kd'];
-    mysqli_query($koneksi, "DELETE FROM kelas WHERE id_kelas ='$id_kelas'");
-    echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
+// Proteksi backend: Hanya admin yang boleh mengeksekusi query hapus
+if (isset($_GET['action']) && $_GET['action'] == "hapus") {
+    if ($role == 'admin') {
+        $id_kelas = $_GET['kd'];
+        mysqli_query($koneksi, "DELETE FROM kelas WHERE id_kelas ='$id_kelas'");
+        echo '<div class="alert alert-success">Data berhasil dihapus!</div>';
+    } else {
+        echo '<div class="alert alert-danger">Akses Ditolak! Anda tidak memiliki izin untuk menghapus data.</div>';
+    }
 }
 ?>
 
@@ -14,7 +19,7 @@ if (isset($_GET['action']) == "hapus") {
                 <div class="card-tools">
                     <?php if ($role == 'admin') { ?>
                     <a href="index.php?page=tambah_kelas" class="btn btn-sm btn-primary">
-                    <i class="fas fa-plus"></i> Tambah Kelas
+                        <i class="fas fa-plus"></i> Tambah Kelas
                     </a>
                     <?php } ?>
                 </div>
@@ -27,7 +32,9 @@ if (isset($_GET['action']) == "hapus") {
                                 <th>No</th>
                                 <th>ID Kelas</th>
                                 <th>Nama Kelas</th>
+                                <?php if ($role == 'admin'): ?>
                                 <th>Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -40,6 +47,8 @@ if (isset($_GET['action']) == "hapus") {
                                 <td><?php echo $no++; ?></td>
                                 <td><strong><?php echo $data['id_kelas']; ?></strong></td>
                                 <td><?php echo $data['nm_kelas']; ?></td>
+                                
+                                <?php if ($role == 'admin'): ?>
                                 <td>
                                     <a href="index.php?page=edit_kelas&kd=<?php echo $data['id_kelas']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
@@ -52,6 +61,7 @@ if (isset($_GET['action']) == "hapus") {
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                             <?php } ?>
                         </tbody>
