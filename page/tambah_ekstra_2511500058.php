@@ -1,4 +1,10 @@
 <?php
+// Proteksi Halaman: Wajib ditaruh paling atas agar Guru/Siswa langsung ditendang keluar
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=ekstra_2511500058';</script>";
+    exit;
+}
+
 if(isset($_POST['simpan'])) {
     $id_ekstra = $_POST['id_ekstra'];
     $nama_ekstra = $_POST['nama_ekstra'];
@@ -44,7 +50,8 @@ if(isset($_POST['simpan'])) {
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Semester</label>
                                 <select name="semester" class="form-control">

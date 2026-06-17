@@ -1,9 +1,14 @@
 <?php
+// Proteksi backend: Hanya admin yang boleh mengeksekusi query hapus
 if (isset($_GET['hapus'])) {
-    $id = $_GET['hapus'];
-    $delete = mysqli_query($koneksi, "DELETE FROM ekstra_2511500058 WHERE id_ekstra='$id'");
-    if ($delete) {
-        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=ekstra_2511500058';</script>";
+    if ($role == 'admin') {
+        $id = $_GET['hapus'];
+        $delete = mysqli_query($koneksi, "DELETE FROM ekstra_2511500058 WHERE id_ekstra='$id'");
+        if ($delete) {
+            echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=ekstra_2511500058';</script>";
+        }
+    } else {
+        echo '<div class="alert alert-danger">Akses Ditolak! Anda tidak memiliki izin untuk menghapus data.</div>';
     }
 }
 ?>
@@ -14,9 +19,11 @@ if (isset($_GET['hapus'])) {
             <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Ekstrakulikuler</h3>
                 <div class="card-tools">
+                    <?php if ($role == 'admin'): ?>
                     <a href="index.php?page=tambah_ekstra_2511500058" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus"></i> Tambah Ekstrakulikuler
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="card-body">
@@ -30,7 +37,9 @@ if (isset($_GET['hapus'])) {
                                 <th>Keterangan</th>
                                 <th>Semester</th>
                                 <th>Tahun Ajaran</th>
+                                <?php if ($role == 'admin'): ?>
                                 <th>Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,17 +55,21 @@ if (isset($_GET['hapus'])) {
                                 <td><?php echo $data['ket']; ?></td>     
                                 <td><?php echo $data['semester']; ?></td>
                                 <td><?php echo $data['thn_ajaran']; ?></td>
+                                
+                                <?php if ($role == 'admin'): ?>
                                 <td>
                                     <a href="index.php?page=edit_ekstra_2511500058&id=<?php echo $data['id_ekstra']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a href="index.php?page=ekstra_2511500058&hapus=<?php echo $data['id_ekstra']; ?>
-                                    "class="btn btn-danger btn-sm" 
-                                    onclick="return confirm('Yakin hapus?')">
+                                    <a href="index.php?page=ekstra_2511500058&hapus=<?php echo $data['id_ekstra']; ?>" 
+                                       class="btn btn-danger btn-sm" 
+                                       onclick="return confirm('Yakin hapus?')"
+                                       title="Hapus">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                             <?php } ?>
                         </tbody>

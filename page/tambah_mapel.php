@@ -1,4 +1,10 @@
 <?php
+// Proteksi Halaman: Wajib ditaruh paling atas agar Guru/Siswa langsung ditendang keluar
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=mapel';</script>";
+    exit;
+}
+
 if (isset($_POST['simpan'])) {
     $kd_mapel = $_POST['kd_mapel'];
     $nm_mapel = $_POST['nm_mapel'];
@@ -8,7 +14,6 @@ if (isset($_POST['simpan'])) {
     if (mysqli_num_rows($cek) > 0) {
         echo '<div class="alert alert-danger">Kode Mapel sudah ada!</div>';
     } else {
-        // PERBAIKAN: Simpan ke variabel $query
         $query = mysqli_query($koneksi, "INSERT INTO mapel (kd_mapel, nm_mapel, kkm) VALUES ('$kd_mapel', '$nm_mapel', '$kkm')");
         
         if ($query) {

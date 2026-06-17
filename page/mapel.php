@@ -1,9 +1,14 @@
 <?php
+// Proteksi backend: Hanya admin yang boleh mengeksekusi query hapus
 if (isset($_GET['hapus'])) {
-    $id = $_GET['hapus'];
-    $delete = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel='$id'");
-    if ($delete) {
-        echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=mapel';</script>";
+    if ($role == 'admin') {
+        $id = $_GET['hapus'];
+        $delete = mysqli_query($koneksi, "DELETE FROM mapel WHERE kd_mapel='$id'");
+        if ($delete) {
+            echo "<script>alert('Data Berhasil Dihapus'); window.location.href='index.php?page=mapel';</script>";
+        }
+    } else {
+        echo '<div class="alert alert-danger">Akses Ditolak! Anda tidak memiliki izin untuk menghapus data.</div>';
     }
 }
 ?>
@@ -14,9 +19,11 @@ if (isset($_GET['hapus'])) {
             <div class="card-header">
                 <h3 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Data Mapel</h3>
                 <div class="card-tools">
+                    <?php if ($role == 'admin'): ?>
                     <a href="index.php?page=tambah_mapel" class="btn btn-sm btn-primary">
                         <i class="fas fa-plus"></i> Tambah Mapel
                     </a>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="card-body">
@@ -28,7 +35,9 @@ if (isset($_GET['hapus'])) {
                                 <th>KD Mapel</th>
                                 <th>Nama Mapel</th>
                                 <th>KKM</th>
+                                <?php if ($role == 'admin'): ?>
                                 <th>Aksi</th>
+                                <?php endif; ?>
                             </tr>
                         </thead>
                         <tbody>
@@ -42,6 +51,8 @@ if (isset($_GET['hapus'])) {
                                 <td><strong><?php echo $data['kd_mapel']; ?></strong></td>
                                 <td><?php echo $data['nm_mapel']; ?></td>
                                 <td><?php echo $data['kkm']; ?></td>
+                                
+                                <?php if ($role == 'admin'): ?>
                                 <td>
                                     <a href="index.php?page=edit_mapel&id=<?php echo $data['kd_mapel']; ?>" 
                                        class="btn btn-warning btn-sm" title="Edit">
@@ -54,6 +65,7 @@ if (isset($_GET['hapus'])) {
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
+                                <?php endif; ?>
                             </tr>
                             <?php } ?>
                         </tbody>

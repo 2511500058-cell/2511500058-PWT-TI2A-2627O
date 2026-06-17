@@ -1,8 +1,13 @@
 <?php
+// Proteksi Halaman: Wajib ditaruh paling atas agar Guru/Siswa langsung ditendang keluar
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=ekstra_2511500058';</script>";
+    exit;
+}
+
 $kd = $_GET['id'];
 $query = mysqli_query($koneksi, "SELECT * FROM ekstra_2511500058 WHERE id_ekstra='$kd'");
 $data = mysqli_fetch_array($query);
-
 
 if (isset($_POST['update'])) {
     $nm_ekstra = mysqli_real_escape_string($koneksi, $_POST['nama_ekstra']);
@@ -10,9 +15,7 @@ if (isset($_POST['update'])) {
     $semester = $_POST['semester'];
     $thn_ajaran = $_POST['thn_ajaran'];
 
-    $update = mysqli_query($koneksi, "UPDATE ekstra_2511500058 SET nama_ekstra='$nm_ekstra', ket='$keterangan', semester='$semester', thn_ajaran='$thn_ajaran'
-    WHERE id_ekstra='$kd'");
-
+    $update = mysqli_query($koneksi, "UPDATE ekstra_2511500058 SET nama_ekstra='$nm_ekstra', ket='$keterangan', semester='$semester', thn_ajaran='$thn_ajaran' WHERE id_ekstra='$kd'");
     
     if($update) {
         echo '<div class="alert alert-success">Data berhasil diupdate!</div>';
@@ -48,14 +51,14 @@ if (isset($_POST['update'])) {
                             <div class="form-group">
                                 <label>Semester</label>
                                 <select name="semester" class="form-control">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                    <option value="7">7</option>
-                                    <option value="8">8</option>
+                                    <option value="1" <?php if($data['semester'] == '1') echo 'selected'; ?>>1</option>
+                                    <option value="2" <?php if($data['semester'] == '2') echo 'selected'; ?>>2</option>
+                                    <option value="3" <?php if($data['semester'] == '3') echo 'selected'; ?>>3</option>
+                                    <option value="4" <?php if($data['semester'] == '4') echo 'selected'; ?>>4</option>
+                                    <option value="5" <?php if($data['semester'] == '5') echo 'selected'; ?>>5</option>
+                                    <option value="6" <?php if($data['semester'] == '6') echo 'selected'; ?>>6</option>
+                                    <option value="7" <?php if($data['semester'] == '7') echo 'selected'; ?>>7</option>
+                                    <option value="8" <?php if($data['semester'] == '8') echo 'selected'; ?>>8</option>
                                 </select>
                             </div>
                         </div>
@@ -63,14 +66,15 @@ if (isset($_POST['update'])) {
                             <div class="form-group">
                                 <label>Tahun Ajaran</label>
                                 <select name="thn_ajaran" class="form-control">
-                                    <option value="2023/2024">2023/2024</option>
-                                    <option value="2024/2025">2024/2025</option>
-                                    <option value="2025/2026">2025/2026</option>
-                                    <option value="2026/2027">2026/2027</option>
+                                    <option value="2023/2024" <?php if($data['thn_ajaran'] == '2023/2024') echo 'selected'; ?>>2023/2024</option>
+                                    <option value="2024/2025" <?php if($data['thn_ajaran'] == '2024/2025') echo 'selected'; ?>>2024/2025</option>
+                                    <option value="2025/2026" <?php if($data['thn_ajaran'] == '2025/2026') echo 'selected'; ?>>2025/2026</option>
+                                    <option value="2026/2027" <?php if($data['thn_ajaran'] == '2026/2027') echo 'selected'; ?>>2026/2027</option>
                                 </select>
                             </div>
                         </div>
                     </div>
+                </div>
                 <div class="card-footer">
                     <button type="submit" name="update" class="btn btn-warning">
                         <i class="fas fa-save"></i> Update

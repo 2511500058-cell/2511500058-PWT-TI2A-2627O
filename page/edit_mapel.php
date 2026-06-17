@@ -1,16 +1,19 @@
 <?php
+// Proteksi Halaman: Wajib ditaruh paling atas agar Guru/Siswa langsung ditendang keluar
+if ($role != 'admin') {
+    echo "<script>alert('Akses Ditolak! Halaman ini hanya untuk Admin.'); window.location.href='index.php?page=mapel';</script>";
+    exit;
+}
+
 $kd = $_GET['id'];
 $query = mysqli_query($koneksi, "SELECT * FROM mapel WHERE kd_mapel='$kd'");
 $data = mysqli_fetch_array($query);
-
 
 if (isset($_POST['update'])) {
     $mapel = mysqli_real_escape_string($koneksi, $_POST['nm_mapel']);
     $kkm = $_POST['kkm'];
 
-    $update = mysqli_query($koneksi, "UPDATE mapel SET nm_mapel='$mapel', kkm='$kkm'
-    WHERE kd_mapel='$kd'");
-
+    $update = mysqli_query($koneksi, "UPDATE mapel SET nm_mapel='$mapel', kkm='$kkm' WHERE kd_mapel='$kd'");
     
     if($update) {
         echo '<div class="alert alert-success">Data berhasil diupdate!</div>';
@@ -41,6 +44,7 @@ if (isset($_POST['update'])) {
                             </div>
                         </div>
                     </div>
+                </div>
                 <div class="card-footer">
                     <button type="submit" name="update" class="btn btn-warning">
                         <i class="fas fa-save"></i> Update
